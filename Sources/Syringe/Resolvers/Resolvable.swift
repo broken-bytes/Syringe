@@ -1,5 +1,5 @@
 /**
- * Resolver.swift | Part of the needle dependency injection framework
+ * Resolvable.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -9,7 +9,7 @@
 // MARK: Public Protocol
 
 /// Resolvable is used as a dummy protocol that only holds a associatedtype. It is used to enable DSL from other modules without having to mark every method public.
-public protocol Resolvable {
+public protocol Resolvable: Dependency {
     
     associatedtype Object
     
@@ -18,28 +18,30 @@ public protocol Resolvable {
 
 // MARK: Internal Protocol
 
-/// ResolvableInternal is the protocol that all NeedleResolvers conform to. Since it refines Resolvable, it can be used internally while alllowing users to use the public Resolvable for DSL purposes.
+/// ResolvableInternal is the protocol that all SyringeResolvers conform to. Since it refines Resolvable, it can be used internally while alllowing users to use the public Resolvable for DSL purposes.
 internal protocol ResolvableInternal: Resolvable {
     
     var type: Object.Type { get }
     var name: String! { get }
+    var lateResolver: ((Object) -> Void)! { get }
     
     func resolve() -> Object
     func resolve(_ arguments: [Any]) -> Object
 }
 
 // MARK: NeedResolver Type
-/// NeedleResolver is the type that contains information regarding how and with what parameters a dependency can be resolved.
-internal final class NeedleResolver<T>: ResolvableInternal {
+/// SyringeResolver is the type that contains information regarding how and with what parameters a dependency can be resolved.
+internal final class SyringeResolver<T>: ResolvableInternal {
 
     public typealias Object = T
     internal let type: Object.Type
     internal let name: String!
-    private var lateResolver: ((Object) -> Void)!
+    internal var lateResolver: ((Object) -> Void)!
     private var resolver: (() -> Object)!
     private var resolverArgs: ((ResolverParameters) -> Object)!
     private var instance: T!
     private let scope: ResolvableScope
+    private var childLateResolvers: [((Object) -> Void)] = []
     
     // MARK: -- Lifetime Methods(inits/deinits)
     
@@ -72,6 +74,11 @@ internal final class NeedleResolver<T>: ResolvableInternal {
     
     // MARK: -- Internal Methods
     
+    /// Called by circular dependencies when the other dependency has resolved
+    internal func onLateInit(object: Object) {
+        self.lateResolver?(object)
+    }
+    
     internal func resolve() -> Object {
         var resolved: T! = nil
         
@@ -80,12 +87,8 @@ internal final class NeedleResolver<T>: ResolvableInternal {
                 resolved = factory()
             case .singleton:
                 resolved = singleton()
-            case .lifetime(let object):
-                fatalError()
         }
-        
-        self.lateResolver?(resolved)
-        
+                
         return resolved
     }
     
@@ -98,12 +101,8 @@ internal final class NeedleResolver<T>: ResolvableInternal {
                 resolved = factory(params)
             case .singleton:
                 resolved = singleton(params)
-            case .lifetime(let object):
-                fatalError()
         }
-        
-        self.lateResolver?(resolved)
-        
+                
         return resolved
     }
     

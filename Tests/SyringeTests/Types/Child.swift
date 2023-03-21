@@ -1,5 +1,5 @@
 /**
- * LogLevel.swift | Part of the needle dependency injection framework
+ * Child.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -8,10 +8,11 @@
 
 import Foundation
 
-public enum NeedleLogLevel {
+public class Child {
     
-    case info
-    case debug
-    case warn
-    case error
+    public var parent: Parent!
+    
+    init() {
+        
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * NeedleApplicationBuilder.swift | Part of the needle dependency injection framework
+ * SyringeApplicationBuilder.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -9,10 +9,10 @@
 import Foundation
 
 @resultBuilder
-public struct NeedleApplicationBuilder {
+public struct SyringeApplicationBuilder {
     
-    public static func buildBlock(_ modules: [Module]) -> NeedleApplication {
-        let app = NeedleApplication()
+    public static func buildBlock(_ modules: [Module]) -> SyringeApplication {
+        let app = SyringeApplication()
         
         for module in modules {
             app.addModule(module)
@@ -21,8 +21,8 @@ public struct NeedleApplicationBuilder {
         return app
     }
     
-    public static func buildBlock(_ logger: NeedleLogger, _ modules: [Module]) -> NeedleApplication {
-        let app = NeedleApplication(logger: logger)
+    public static func buildBlock(_ logger: SyringeLogger, _ modules: [Module]) -> SyringeApplication {
+        let app = SyringeApplication(logger: logger)
                 
         for module in modules {
             app.addModule(module)
