@@ -1,5 +1,5 @@
 /**
- * SyringeApplication+DSLFunctions.swift | Part of the Syringe dependency injection framework
+ * Container+DSLFunctions.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -8,28 +8,28 @@
 
 import Foundation
 
-// MARK: Free Functions for global SyringeApplication
+// MARK: Free Functions for global Container
 
-/// Creates a new SyringeApplication
-public func SyringeContainer(@SyringeApplicationBuilder _ builder: () -> SyringeApplication) -> SyringeApplication {
+/// Creates a new Container
+public func SyringeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
     builder()
 }
 
-/// Creates a SyringeApplication that is bound to global scope. Enabled the free function DSL
-public func injectSyringe(@SyringeApplicationBuilder _ builder: () -> SyringeApplication) -> Void {
-    if SyringeApplication.global != nil {
-        SyringeApplication.global.logger?.log(
+/// Creates a Container that is bound to global scope. Enabled the free function DSL
+public func injectSyringe(@ContainerBuilder _ builder: () -> Container) -> Void {
+    if Container.global != nil {
+        Container.global.logger?.log(
             level: .warn,
             message: .startSyringe(message: "A global instance is already present. The current instance will be overriden. This is usually unintended.")
         )
     }
     
-    SyringeApplication.global = builder()
+    Container.global = builder()
 }
 
 /// Stops the global Syringe instance.
 public func stopSyringe() {
-    SyringeApplication.global = nil
+    Container.global = nil
 }
 
 /// Builds an array of modules via a resultBuilder
@@ -39,7 +39,7 @@ public func modules(@ModulesBuilder _ builder: () -> [Module]) -> [Module] {
 
 /// Gets a dependency by type and name
 public func get<T>(named: String! = nil) -> T? {
-    guard let container = SyringeApplication.global else {
+    guard let container = Container.global else {
         print("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
         return nil
     }
@@ -49,7 +49,7 @@ public func get<T>(named: String! = nil) -> T? {
 
 /// Gets a dependency by type and name and passes arguments
 public func get<T>(named: String! = nil, _ arguments: Any...) -> T? {
-    guard let container = SyringeApplication.global else {
+    guard let container = Container.global else {
         print("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
         return nil
     }

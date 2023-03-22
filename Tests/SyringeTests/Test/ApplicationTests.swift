@@ -27,7 +27,6 @@ final class TestApplication: XCTestCase {
     
     func testGlobalScopeIsCreated() throws {
         
-        
         var config: TestConfig = get()!
     }
     

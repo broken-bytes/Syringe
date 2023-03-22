@@ -1,5 +1,5 @@
 /**
- * SyringeApplication.swift | Part of the Syringe dependency injection framework
+ * Container.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -8,12 +8,12 @@
 
 import Foundation
 
-// MARK: Neede Application container
+// MARK: Neede container
 
-/// A SyringeApplication is the central point for Syringe DI. It hosts all modules and therefore manages all dependencies.
-public final class SyringeApplication {
+/// A Container is the central point for Syringe DI. It hosts all modules and therefore manages all dependencies.
+public final class Container {
     
-    internal static var global: SyringeApplication!
+    internal static var global: Container!
     
     private var modules: [Module] = []
     internal var logger: SyringeLogger!
