@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/broken-bytes/syringe/blob/main/syringe_logo.png" />
+</p>
+
 # Syringe
 
 ## Introduction
