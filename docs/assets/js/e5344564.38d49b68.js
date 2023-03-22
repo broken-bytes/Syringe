@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksyringe_docs=self.webpackChunksyringe_docs||[]).push([[92],{4757:e=>{e.exports=JSON.parse('{"title":"Usage","slug":"/category/usage","permalink":"/docs/category/usage","navigation":{"previous":{"title":"Setup","permalink":"/docs/setup"},"next":{"title":"Getting Started","permalink":"/docs/Usage/first_steps"}}}')}}]);
