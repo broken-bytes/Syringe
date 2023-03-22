@@ -3,6 +3,7 @@
 </p>
 
 # Syringe
+![Build](https://github.com/broken-bytes/syringe/actions/workflows/swift.yml/badge.svg)
 
 ## Introduction
 
