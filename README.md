@@ -93,4 +93,6 @@ class View {
 }
 ```
 
+### Documentation
+
 The full documentation can be found under [Documentation](https://broken-bytes.github.io/Syringe/)
