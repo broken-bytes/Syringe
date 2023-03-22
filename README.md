@@ -32,13 +32,11 @@ import Syringe
 
 class DependencyHandler {
     init() {
-        // highlight-start
         injectSyringe {
             modules {
                 // Modules go here
             }
         }
-        // highlight-end
     }
 }
 ```
@@ -59,10 +57,8 @@ Adding dependencies to modules is done via the module DSL:
 
 ```swift
 let appModule = module {
-    // highlight-start
     singleton { YourType() }
     factory { Int.random(0..<5) }
-    // highlight-end
 }
 ```
 
@@ -80,14 +76,12 @@ class Service {
 
 let appModule = module {
     // Resolving at module level
-    // highlight-next-line
     singleton { YourType(value: get()) }
     factory { Int.random(0..<5) }
 }
 
 class View {
     // Resolving at global level
-    // highlight-next-line
     let service: Service = get()
 
     init() {
