@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksyringe_docs=self.webpackChunksyringe_docs||[]).push([[692],{921:e=>{e.exports=JSON.parse('{"title":"Usage","slug":"/category/usage","permalink":"/Syringe/docs/category/usage","navigation":{"previous":{"title":"Setup","permalink":"/Syringe/docs/setup"},"next":{"title":"Getting Started","permalink":"/Syringe/docs/Usage/first_steps"}}}')}}]);
