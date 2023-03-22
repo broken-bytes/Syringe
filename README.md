@@ -3,8 +3,7 @@
 </p>
 
 # Syringe
-![Build](https://github.com/broken-bytes/syringe/actions/workflows/swift.yml/badge.svg)
-
+![Build](https://github.com/broken-bytes/syringe/actions/workflows/swift.yml/badge.svg) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/broken-bytes/syringe?label=Version) ![Swift](https://img.shields.io/badge/Swift-5.7-brightgreen)
 ## Introduction
 
 Syringe is a lightweight dependency(DI) framework written in Swift. It aims to provide an intuitive and non-invasive way to realise Inversion of Control(IoC) in applications written in Swift.
