@@ -3,8 +3,8 @@
 </p>
 
 # Syringe
-![Build](https://github.com/broken-bytes/syringe/actions/workflows/swift.yml/badge.svg) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/broken-bytes/syringe?label=Version) ![Swift](https://img.shields.io/badge/Swift-5.7-brightgreen) [![Discord](https://dcbadge.vercel.app/api/server/hZqQBWTAkV?style=flat-square)](https://discord.gg/hZqQBWTAkV)
-
+![Build](https://github.com/broken-bytes/syringe/actions/workflows/swift.yml/badge.svg) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/broken-bytes/syringe?label=Version) ![Swift](https://img.shields.io/badge/Swift-5.7-brightgreen) [![Discord](https://dcbadge.vercel.app/api/server/hZqQBWTAkV?style=flat-square)](https://discord.gg/hZqQBWTAkV) 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=broken-bytes_Syringe&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=broken-bytes_Syringe)
 Syringe is a lightweight dependency(DI) framework written in Swift. It aims to provide an intuitive and non-invasive way to realise Inversion of Control(IoC) in applications written in Swift.
 
 Unlike other dependency frameworks, Syringe aims for simplicity and ease-of-use via an extensive custom DSL. 
