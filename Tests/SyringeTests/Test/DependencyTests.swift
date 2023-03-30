@@ -67,9 +67,9 @@ final class TestCircularDependencies: XCTestCase {
         let testModule = module {
             singleton { module in Parent(child: module.get()!) }
                 .onInit {
-                    guard let parent: Parent = $0 as? Parent else { fatalError() }
+                    guard let parent: Parent = $1 as? Parent else { fatalError() }
                     // TODO: Change to get
-                    let child: Child = inject()!
+                    let child: Child = $0.get()!
                     child.parent = parent
                 }
             singleton { _ in Child() }
@@ -96,9 +96,9 @@ final class TestCircularDependencies: XCTestCase {
         let testModule = module {
             singleton { module in Parent(child: module.get()!) }
                 .onInit {
-                    guard let parent: Parent = $0 as? Parent else { fatalError() }
+                    guard let parent: Parent = $1 as? Parent else { fatalError() }
                     // TODO: Change to get
-                    let child: Child = inject()!
+                    let child: Child = $0.get()!
                     child.parent = parent
                 }
             singleton { _ in Child() }

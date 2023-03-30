@@ -13,7 +13,7 @@ public protocol Resolvable: Dependency {
     
     associatedtype Object
     
-    func onInit(_ lateResolver: @escaping (Object) -> Void) -> any Resolvable
+    func onInit(_ lateResolver: @escaping (Module, Object) -> Void) -> any Resolvable
 }
 
 // MARK: Internal Protocol
@@ -23,7 +23,7 @@ internal protocol ResolvableInternal: Resolvable {
     
     var type: Object.Type { get }
     var name: String! { get }
-    var lateResolver: ((Object) -> Void)! { get }
+    var lateResolver: ((Module, Object) -> Void)! { get }
     
     func resolve(_ module: Module) -> Object
     func resolve(_ module: Module, _ arguments: [Any]) -> Object
@@ -36,8 +36,8 @@ internal final class SyringeResolver<T>: ResolvableInternal {
     public typealias Object = T
     internal let type: Object.Type
     internal let name: String!
-    internal var lateResolver: ((Object) -> Void)!
-    internal lazy var module: Module! = nil
+    internal var lateResolver: ((Module, Object) -> Void)!
+    internal var module: Module! = nil
     private var resolver: ((Module) -> Object)!
     private var resolverArgs: ((Module, ResolverParameters) -> Object)!
     private var instance: T!
@@ -68,7 +68,7 @@ internal final class SyringeResolver<T>: ResolvableInternal {
     
     // MARK: -- Public Methods
     
-    public func onInit(_ lateResolver: @escaping (Object) -> Void) -> any Resolvable {
+    public func onInit(_ lateResolver: @escaping (Module, Object) -> Void) -> any Resolvable {
         self.lateResolver = lateResolver
         return self
     }
@@ -76,8 +76,8 @@ internal final class SyringeResolver<T>: ResolvableInternal {
     // MARK: -- Internal Methods
     
     /// Called by circular dependencies when the other dependency has resolved
-    internal func onLateInit(object: Object) {
-        self.lateResolver?(object)
+    internal func onLateInit(module: Module, object: Object) {
+        self.lateResolver?(module, object)
     }
     
     internal func resolve(_ module: Module) -> Object {

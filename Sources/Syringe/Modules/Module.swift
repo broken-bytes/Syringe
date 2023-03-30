@@ -41,7 +41,7 @@ public final class Module {
                 
                 guard let dependency else { fatalError() }
                 guard let typedResolvable = resolvable as? SyringeResolver<T> else { fatalError() }
-                typedResolvable.onLateInit(object: dependency)
+                typedResolvable.onLateInit(module: self, object: dependency)
                 return dependency
             }
         }
