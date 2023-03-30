@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "syringe",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/broken-bytes/Syringe",
+      "state" : {
+        "branch" : "feature/swiftui",
+        "revision" : "c2c7f58b25699611ef75e76c507202d956d54e9a"
+      }
+    }
+  ],
+  "version" : 2
+}
