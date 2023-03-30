@@ -27,18 +27,20 @@ public struct Injected<T> {
 public extension View {
     
     func withSyringe(_ block: () -> [Module]) -> some View {
-        self.environmentObject(
-            syringeContainer {
-                block()
-        })
+        injectSyringe {
+            block()
+        }
+        
+        return self
     }
     
     func withSyringe(logger: SyringeLogger, _ block: () -> [Module]) -> some View {
-        self.environmentObject(
-            syringeContainer {
-                logger
-                block()
-        })
+        injectSyringe {
+            logger
+            block()
+        }
+        
+        return self
     }
 }
 

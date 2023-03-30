@@ -10,6 +10,8 @@ import Syringe
 import SyringeSwiftUI
 
 struct ContentView: View {
+    @Injected var value: Int
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -17,8 +19,10 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
         }
-        .syr
         .padding()
+        .onAppear {
+            print(self.value)
+        }
     }
 }
 
