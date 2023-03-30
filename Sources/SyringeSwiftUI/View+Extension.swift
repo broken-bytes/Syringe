@@ -28,5 +28,19 @@ public extension View {
         
         return self
     }
+    
+    func withContainer(key: any Hashable, _ block: () -> [Module]) -> some View {
+        registerContainer(key: key, container: syringeContainer {
+            block()
+        })
+        
+        return self
+    }
+    
+    func withContainer(key: any Hashable, _ container: Container) -> some View {
+        registerContainer(key: key, container: container)
+        
+        return self
+    }
 }
 
