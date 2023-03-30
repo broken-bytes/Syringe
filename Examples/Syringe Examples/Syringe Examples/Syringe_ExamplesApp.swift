@@ -16,15 +16,6 @@ struct Syringe_ExamplesApp: App {
             VStack {
                 ContentView()
             }
-            .withSyringe {
-                modules {
-                    module {
-                        factory { _ in
-                            Int.random(in: 0..<5)
-                        }
-                    }
-                }
-            }
             .onAppear {
                 registerContainer(key: "Container", container: syringeContainer {
                     modules {
@@ -33,6 +24,15 @@ struct Syringe_ExamplesApp: App {
                         }
                     }
                 })
+            }
+            .withSyringe {
+                modules {
+                    module {
+                        factory { _ in
+                            Int.random(in: 0..<5)
+                        }
+                    }
+                }
             }
         }
     }

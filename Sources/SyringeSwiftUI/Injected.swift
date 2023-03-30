@@ -12,9 +12,10 @@ import Syringe
 @propertyWrapper
 public struct Injected<T> {
     private let container: Container?
+    private let needsContainer: Bool
     
     public var wrappedValue: T {
-        guard let value: T = container != nil ? container?.get() : inject() else {
+        guard let value: T = container != nil && needsContainer ? container?.get() : inject() else {
             fatalError("Failed to find dependency \(T.self)")
         }
         
@@ -24,10 +25,12 @@ public struct Injected<T> {
     
     public init(with key: any Hashable) {
         self.container = Syringe.container(for: key)
+        self.needsContainer = true
     }
     
     public init() {
         self.container = nil
+        self.needsContainer = false
     }
 }
 
