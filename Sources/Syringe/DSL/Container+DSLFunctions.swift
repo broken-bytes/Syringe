@@ -11,7 +11,7 @@ import Foundation
 // MARK: Free Functions for global Container
 
 /// Creates a new Container
-public func SyringeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
+public func syringeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
     builder()
 }
 
