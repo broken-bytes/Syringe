@@ -14,6 +14,7 @@ import Foundation
 public final class Container {
     
     internal static var global: Container!
+    internal static var containers: [ContainerKey:Container] = [:]
     
     private var modules: [Module] = []
     internal var logger: SyringeLogger!

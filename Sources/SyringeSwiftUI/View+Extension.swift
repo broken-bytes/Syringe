@@ -10,20 +10,6 @@ import Foundation
 import SwiftUI
 import Syringe
 
-@propertyWrapper
-public struct Injected<T> {
-    public var wrappedValue: T {
-        guard let value: T = inject() else {
-            fatalError("Dependency \(T.self) not registered globally")
-        }
-        
-        return value
-    }
-    
-    public init() {
-    }
-}
-
 public extension View {
     
     func withSyringe(_ block: () -> [Module]) -> some View {

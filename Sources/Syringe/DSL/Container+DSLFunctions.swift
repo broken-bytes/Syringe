@@ -15,6 +15,17 @@ public func syringeContainer(@ContainerBuilder _ builder: () -> Container) -> Co
     builder()
 }
 
+/// Creates a new Container with a given identifier
+/// - Parameter identifier The identifier to be used for this container
+public func registerContainer(key: any Hashable, container: Container) {
+    let containerKey = ContainerKey(key: key)
+    Container.containers[containerKey] = container
+}
+
+public func container(for key: any Hashable) -> Container? {
+    Container.containers.first(where: { $0.key.key.hashValue == key.hashValue })?.value
+}
+
 /// Creates a Container that is bound to global scope. Enabled the free function DSL
 public func injectSyringe(@ContainerBuilder _ builder: () -> Container) -> Void {
     if Container.global != nil {
