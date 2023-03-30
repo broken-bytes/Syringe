@@ -34,9 +34,9 @@ public final class Module {
                 var dependency: T?
                 
                 if args.isEmpty {
-                    dependency = resolvable.resolve() as? T
+                    dependency = resolvable.resolve(self) as? T
                 } else {
-                    dependency = resolvable.resolve(args) as? T
+                    dependency = resolvable.resolve(self, args) as? T
                 }
                 
                 guard let dependency else { fatalError() }

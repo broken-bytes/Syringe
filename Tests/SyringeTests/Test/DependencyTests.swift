@@ -12,15 +12,7 @@ import XCTest
 final class TestCircularDependencies: XCTestCase {
 
     override func setUpWithError() throws {
-        let testModule = module {
-            singleton { TestConfig(url: "") }
-        }
         
-        injectSyringe {
-            modules {
-                testModule
-            }
-        }
     }
 
     override func tearDownWithError() throws {
@@ -29,10 +21,10 @@ final class TestCircularDependencies: XCTestCase {
     
     func testTypeCastingIsResolved() throws {
         let testModule = module {
-            singleton {
-                TestServiceLive(repository: get()!) as TestService
+            singleton { (module: Module) -> TestService in
+                TestServiceLive(repository: module.get()!) as TestService
             }
-            singleton { TestRepository(api: TestAPI(config: TestConfig(url: ""))) }
+            singleton { _ in TestRepository(api: TestAPI(config: TestConfig(url: ""))) }
         }
         
         injectSyringe {
@@ -41,20 +33,21 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        do {
-            let service: TestService = get()!
-            service.run()
-        } catch {
+        guard let service: TestService = inject() else {
             XCTFail()
+            return
         }
+        
+        service.run()
+        
     }
     
     func testExplicitTypeIsResolved() throws {
         let testModule = module {
-            singleton { () -> TestService in
-                return TestServiceLive(repository: get()!)
+            singleton { module in
+                return TestServiceLive(repository: module.get()!)
             }
-            singleton { TestRepository(api: TestAPI(config: TestConfig(url: ""))) }
+            singleton { _ in TestRepository(api: TestAPI(config: TestConfig(url: ""))) }
         }
         
         injectSyringe {
@@ -63,23 +56,23 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        do {
-            let service: TestService = get()!
-            service.run()
-        } catch {
+        guard let service: TestServiceLive = inject() else {
             XCTFail()
+            return
         }
+        service.run()
     }
 
     func testCircularDependencyIsResolved() throws {
-        var testModule = module {
-            singleton { Parent(child: get()!) }
+        let testModule = module {
+            singleton { module in Parent(child: module.get()!) }
                 .onInit {
                     guard let parent: Parent = $0 as? Parent else { fatalError() }
-                    let child: Child = get()!
+                    // TODO: Change to get
+                    let child: Child = inject()!
                     child.parent = parent
                 }
-            singleton { Child() }
+            singleton { _ in Child() }
         }
         injectSyringe {
             modules {
@@ -87,21 +80,28 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        let parent: Parent = get()!
-        let child: Child = get()!
+        guard let parent: Parent = inject() else {
+            XCTFail()
+            return
+        }
+        guard let child: Child = inject() else {
+            XCTFail()
+            return
+        }
         
         XCTAssert(child.parent != nil)
     }
     
     func testUnregisteredDependencyIsNull() throws {
-        var testModule = module {
-            singleton { Parent(child: get()!) }
+        let testModule = module {
+            singleton { module in Parent(child: module.get()!) }
                 .onInit {
                     guard let parent: Parent = $0 as? Parent else { fatalError() }
-                    let child: Child = get()!
+                    // TODO: Change to get
+                    let child: Child = inject()!
                     child.parent = parent
                 }
-            singleton { Child() }
+            singleton { _ in Child() }
         }
         injectSyringe {
             modules {
@@ -109,9 +109,11 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let service: TestService = get() else {
+        guard let service: TestService = inject() else {
             return
         }
+        
+        service.run()
         
         XCTFail()
     }

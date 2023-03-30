@@ -38,7 +38,7 @@ public func modules(@ModulesBuilder _ builder: () -> [Module]) -> [Module] {
 }
 
 /// Gets a dependency by type and name
-public func get<T>(named: String! = nil) -> T? {
+public func inject<T>(named: String! = nil) -> T? {
     guard let container = Container.global else {
         print("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
         return nil
@@ -48,7 +48,7 @@ public func get<T>(named: String! = nil) -> T? {
 }
 
 /// Gets a dependency by type and name and passes arguments
-public func get<T>(named: String! = nil, _ arguments: Any...) -> T? {
+public func inject<T>(named: String! = nil, _ arguments: Any...) -> T? {
     guard let container = Container.global else {
         print("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
         return nil

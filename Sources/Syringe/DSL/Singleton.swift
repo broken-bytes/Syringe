@@ -8,27 +8,27 @@
 
 /// Creates a new singleton dependency
 /// - Parameter resolver Closure that returns the instanced singleton
-public func singleton<T>(_ resolver: @escaping () -> T) -> any Resolvable {
+public func singleton<T>(_ resolver: @escaping (Module) -> T) -> any Resolvable {
     SyringeResolver<T>(scope: .singleton, resolver)
 }
 
 /// Creates a new singleton dependency
 /// - Parameter named The name to be used for this singleton
 /// - Parameter resolver Closure that returns the instanced singleton
-public func singleton<T>(named: String, _ resolver: @escaping () -> T) -> any Resolvable {
+public func singleton<T>(named: String, _ resolver: @escaping (Module) -> T) -> any Resolvable {
     SyringeResolver<T>(named: named, scope: .singleton, resolver)
 }
 
 /// Creates a new singleton dependency
 /// - Parameter resolver Closure that returns the instanced singleton. Also takes parameters to pass upon creation
-public func singleton<T>(_ resolver: @escaping (ResolverParameters) -> T) -> any Resolvable {
+public func singleton<T>(_ resolver: @escaping (Module, ResolverParameters) -> T) -> any Resolvable {
     SyringeResolver<T>(scope: .singleton, resolver)
 }
 
 /// Creates a new singleton dependency
 /// - Parameter named The name to be used for this singleton
 /// - Parameter resolver Closure that returns the instanced singleton. Also takes parameters to pass upon creation
-public func singleton<T>(named: String, _ resolver: @escaping (ResolverParameters) -> T) -> any Resolvable {
+public func singleton<T>(named: String, _ resolver: @escaping (Module, ResolverParameters) -> T) -> any Resolvable {
     SyringeResolver<T>(named: named, scope: .singleton, resolver)
 }
 

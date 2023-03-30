@@ -15,7 +15,7 @@ final class TestApplication: XCTestCase {
     
     override func setUpWithError() throws {
         let testModule = module {
-            singleton { TestConfig(url: "") }
+            singleton { _ in TestConfig(url: "") }
         }
         
         injectSyringe {
@@ -27,12 +27,15 @@ final class TestApplication: XCTestCase {
     
     func testGlobalScopeIsCreated() throws {
         
-        var config: TestConfig = get()!
+        // Config should not be nil
+        let config: TestConfig? = inject()
+        
+        XCTAssertNotNil(config)
     }
     
     func testGlobalScopeIsShutdown() throws {
         let testModule = module {
-            singleton { TestConfig(url: "") }
+            singleton { _ in TestConfig(url: "TEST") }
         }
         
         injectSyringe {
@@ -43,8 +46,8 @@ final class TestApplication: XCTestCase {
         
         stopSyringe()
         
-        guard let config: TestConfig = get() else {
-            // Else clase is what we want so return here
+        guard let config: TestConfig = inject() else {
+            // Else case is what we want so return here
             return
         }
         
@@ -53,7 +56,7 @@ final class TestApplication: XCTestCase {
     
     func testLoggerWorks() throws {
         let testModule = module {
-            singleton { TestConfig(url: "") }
+            singleton { _ in TestConfig(url: "") }
         }
         
         injectSyringe {
@@ -63,7 +66,7 @@ final class TestApplication: XCTestCase {
             }
         }
         
-        guard let config: TestConfig = get() else {
+        guard let config: TestConfig = inject() else {
             // Else clase is what we want so return here
             return
         }

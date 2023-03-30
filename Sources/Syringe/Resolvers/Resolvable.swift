@@ -25,8 +25,8 @@ internal protocol ResolvableInternal: Resolvable {
     var name: String! { get }
     var lateResolver: ((Object) -> Void)! { get }
     
-    func resolve() -> Object
-    func resolve(_ arguments: [Any]) -> Object
+    func resolve(_ module: Module) -> Object
+    func resolve(_ module: Module, _ arguments: [Any]) -> Object
 }
 
 // MARK: NeedResolver Type
@@ -37,8 +37,9 @@ internal final class SyringeResolver<T>: ResolvableInternal {
     internal let type: Object.Type
     internal let name: String!
     internal var lateResolver: ((Object) -> Void)!
-    private var resolver: (() -> Object)!
-    private var resolverArgs: ((ResolverParameters) -> Object)!
+    internal lazy var module: Module! = nil
+    private var resolver: ((Module) -> Object)!
+    private var resolverArgs: ((Module, ResolverParameters) -> Object)!
     private var instance: T!
     private let scope: ResolvableScope
     private var childLateResolvers: [((Object) -> Void)] = []
@@ -51,12 +52,12 @@ internal final class SyringeResolver<T>: ResolvableInternal {
         self.scope = scope
     }
     
-    internal convenience init(named: String! = nil, scope: ResolvableScope, _ resolver: @escaping () -> Object) {
+    internal convenience init(named: String! = nil, scope: ResolvableScope, _ resolver: @escaping (Module) -> Object) {
         self.init(named: named, scope: scope)
         self.resolver = resolver
     }
     
-    internal convenience init(named: String! = nil, scope: ResolvableScope,_ resolver: @escaping (ResolverParameters) -> Object) {
+    internal convenience init(named: String! = nil, scope: ResolvableScope, _ resolver: @escaping (Module, ResolverParameters) -> Object) {
         self.init(named: named, scope: scope)
         self.resolverArgs = resolver
     }
@@ -79,9 +80,11 @@ internal final class SyringeResolver<T>: ResolvableInternal {
         self.lateResolver?(object)
     }
     
-    internal func resolve() -> Object {
+    internal func resolve(_ module: Module) -> Object {
+        self.module = module
+
         var resolved: T! = nil
-        
+                
         switch scope {
             case .factory:
                 resolved = factory()
@@ -92,8 +95,10 @@ internal final class SyringeResolver<T>: ResolvableInternal {
         return resolved
     }
     
-    internal func resolve(_ arguments: [Any]) -> Object {
+    internal func resolve(_ module: Module, _ arguments: [Any]) -> Object {
         let params = ResolverParameters(params: arguments)
+        self.module = module
+
         var resolved: Object! = nil
         
         switch scope {
@@ -113,7 +118,7 @@ internal final class SyringeResolver<T>: ResolvableInternal {
             fatalError("Trying to create a new instance of type \(Object.self) from factory without parameters but registered factory takes parameters.")
         }
         
-        return resolver()
+        return resolver(module)
     }
     
     private func factory(_ parameters: ResolverParameters) -> Object {
@@ -122,7 +127,7 @@ internal final class SyringeResolver<T>: ResolvableInternal {
             
         }
         
-        return resolverArgs(parameters)
+        return resolverArgs(module, parameters)
     }
     
     private func singleton() -> Object {
@@ -132,7 +137,7 @@ internal final class SyringeResolver<T>: ResolvableInternal {
                 fatalError("Trying to resolve singleton of type \(Object.self) without parameters but registered singleton takes parameters.")
             }
             
-            instance = resolver()
+            instance = resolver(module)
         }
         
         return instance
@@ -145,7 +150,7 @@ internal final class SyringeResolver<T>: ResolvableInternal {
         }
         
         if instance == nil {
-            instance = resolverArgs(parameters)
+            instance = resolverArgs(module, parameters)
         } else {
             // Send a warning because subsequent resolves for a singleton resolver with parameters ignore following parameters.
             print("Warning: You are trying to resolve a singleton with parameters that has already been resolved. Parameters will be ignored")
