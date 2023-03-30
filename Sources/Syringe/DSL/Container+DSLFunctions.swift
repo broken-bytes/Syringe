@@ -23,7 +23,7 @@ public func registerContainer(key: any Hashable, container: Container) {
 }
 
 public func container(for key: any Hashable) -> Container? {
-    Container.containers.first(where: {
+    return Container.containers.first(where: {
         print($0.key.hashValue)
         print(key.hashValue)
         return $0.key.key.hashValue == key.hashValue }

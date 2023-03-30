@@ -13,7 +13,7 @@ import XCTest
 
 final class TestApplication: XCTestCase {
     
-    override func setUpWithError() throws {
+    func testGlobalScopeIsCreated() throws {
         let testModule = module {
             singleton { _ in TestConfig(url: "") }
         }
@@ -23,10 +23,6 @@ final class TestApplication: XCTestCase {
                 testModule
             }
         }
-    }
-    
-    func testGlobalScopeIsCreated() throws {
-        
         // Config should not be nil
         let config: TestConfig? = inject()
         
@@ -70,5 +66,23 @@ final class TestApplication: XCTestCase {
             // Else clase is what we want so return here
             return
         }
+    }
+    
+    func testRegisteredContainerIsAvailable() {
+        let randomVal = Int.random(in: 0..<5)
+        registerContainer(key: "Container", container: syringeContainer {
+            modules {
+                module {
+                    singleton { Module in
+                        randomVal
+                    }
+                }
+            }
+        })
+        
+        let container = container(for: "Container")
+        
+        XCTAssertNotNil(container)
+        XCTAssert(randomVal == container?.get())
     }
 }
