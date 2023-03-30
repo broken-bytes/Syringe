@@ -21,6 +21,25 @@ The core features of Syringe:
 
 ## Getting Started
 
+### Setup
+
+Syringe is available via the Swift Package Manager.
+
+Just add it as a dependency:
+```
+dependencies: [
+  ...
+  .package(url: "https://github.com/broken-bytes/Syringe", from: "v0.2.1-a"),
+]
+```
+
+Now Syringe is ready for import:
+```swift
+import Syringe
+```
+
+You can now use Syringe from your code.
+
 ### Initialising Syringe
 Syringe's core is the `Container`. It is the central touchpoint for all interactions with Syringe.
 
@@ -61,8 +80,8 @@ Adding dependencies to modules is done via the module DSL:
 
 ```swift
 let appModule = module {
-    singleton { YourType() }
-    factory { Int.random(0..<5) }
+    singleton { _ in YourType() }
+    factory { _ in Int.random(0..<5) }
 }
 ```
 
@@ -80,13 +99,13 @@ class Service {
 
 let appModule = module {
     // Resolving at module level
-    singleton { YourType(value: get()) }
-    factory { Int.random(0..<5) }
+    singleton { module in YourType(value: module.get()) }
+    factory { _ in Int.random(0..<5) }
 }
 
 class View {
     // Resolving at global level
-    let service: Service = get()
+    let service: Service = inject()!
 
     init() {
 
@@ -94,6 +113,6 @@ class View {
 }
 ```
 
-### Documentation
+## Documentation
 
 The full documentation can be found under [Documentation](https://broken-bytes.github.io/Syringe/)
