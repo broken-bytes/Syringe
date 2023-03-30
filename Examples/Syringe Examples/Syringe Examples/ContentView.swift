@@ -11,6 +11,7 @@ import SyringeSwiftUI
 
 struct ContentView: View {
     @Injected var value: Int
+    @Injected(with: "Container") var valueContainer: Int
     
     var body: some View {
         VStack {
@@ -22,6 +23,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             print(self.value)
+            print(self.valueContainer)
         }
     }
 }

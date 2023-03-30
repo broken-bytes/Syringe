@@ -25,6 +25,15 @@ struct Syringe_ExamplesApp: App {
                     }
                 }
             }
+            .onAppear {
+                registerContainer(key: "Container", container: syringeContainer {
+                    modules {
+                        module {
+                            singleton { _ in 3 }
+                        }
+                    }
+                })
+            }
         }
     }
 }
