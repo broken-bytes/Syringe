@@ -11,8 +11,8 @@ import SwiftUI
 import Syringe
 
 @propertyWrapper
-struct Injected<T> {
-    var wrappedValue: T {
+public struct Injected<T> {
+    public var wrappedValue: T {
         guard let value: T = inject() else {
             fatalError("Dependency \(T.self) not registered globally")
         }
@@ -20,11 +20,11 @@ struct Injected<T> {
         return value
     }
     
-    init() {
+    public init() {
     }
 }
 
-extension View {
+public extension View {
     
     func withSyringe(_ block: () -> [Module]) -> some View {
         self.environmentObject(
@@ -39,27 +39,6 @@ extension View {
                 logger
                 block()
         })
-    }
-}
-
-struct TestView: View {
-    @Injected var value: Int
-    
-    var body: some View {
-        VStack {
-            
-        }
-        .withSyringe {
-            modules {
-                module {
-                    factory { _ in Int.random(in: 0..<5) }
-                    factory { _ in Int.random(in: 0..<5) }
-                }
-            }
-        }
-        .onAppear {
-            print(self.value)
-        }
     }
 }
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Syringe
+import SyringeSwiftUI
 
 struct ContentView: View {
     var body: some View {
@@ -16,6 +17,7 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
         }
+        .syr
         .padding()
     }
 }

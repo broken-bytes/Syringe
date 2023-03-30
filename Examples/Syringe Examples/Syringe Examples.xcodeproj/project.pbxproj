@@ -12,6 +12,7 @@
 		030156C429D621BD00DB041F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 030156C329D621BD00DB041F /* Assets.xcassets */; };
 		030156C729D621BD00DB041F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 030156C629D621BD00DB041F /* Preview Assets.xcassets */; };
 		030156D129D6238000DB041F /* Syringe in Frameworks */ = {isa = PBXBuildFile; productRef = 030156D029D6238000DB041F /* Syringe */; };
+		030156D429D623C500DB041F /* SyringeSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 030156D329D623C500DB041F /* SyringeSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				030156D429D623C500DB041F /* SyringeSwiftUI in Frameworks */,
 				030156D129D6238000DB041F /* Syringe in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,6 +41,7 @@
 			children = (
 				030156BE29D621BC00DB041F /* Syringe Examples */,
 				030156BD29D621BC00DB041F /* Products */,
+				030156D229D623C500DB041F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +72,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		030156D229D623C500DB041F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -87,6 +97,7 @@
 			name = "Syringe Examples";
 			packageProductDependencies = (
 				030156D029D6238000DB041F /* Syringe */,
+				030156D329D623C500DB041F /* SyringeSwiftUI */,
 			);
 			productName = "Syringe Examples";
 			productReference = 030156BC29D621BC00DB041F /* Syringe Examples.app */;
@@ -364,6 +375,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */;
 			productName = Syringe;
+		};
+		030156D329D623C500DB041F /* SyringeSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */;
+			productName = SyringeSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
