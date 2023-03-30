@@ -9,7 +9,7 @@
 // MARK: Public Protocol
 
 /// Resolvable is used as a dummy protocol that only holds a associatedtype. It is used to enable DSL from other modules without having to mark every method public.
-public protocol Resolvable: Dependency {
+public protocol Resolvable {
     
     associatedtype Object
     

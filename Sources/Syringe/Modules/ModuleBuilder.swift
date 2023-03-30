@@ -7,18 +7,15 @@
  */
 
 @resultBuilder
-struct ModuleBuilder {
-
-    static func buildBlock(_ dependencies: any Dependency...) -> Module {
+public struct ModuleBuilder {
+    
+    public static func buildBlock(_ dependencies: any Resolvable...) -> Module {
         let module: Module = Module()
-
+        
         for dependency in dependencies {
-            if let resolvable = dependency as? any Resolvable {
-                module.addResolvable(resolvable: resolvable)
-                continue
-            }
+            module.addResolvable(resolvable: dependency)
         }
-
+        
         return module
     }
 }
