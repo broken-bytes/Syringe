@@ -10,21 +10,22 @@ import Foundation
 import Syringe
 
 @propertyWrapper
+/// Allows to dynamically aquire dependencies
 public struct Injected<T> {
     private let key: (any Hashable)!
     private let needsContainer: Bool
     
-    public var wrappedValue: T {
+    public var wrappedValue: T? {
         if needsContainer {
             guard let value: T = container(for: key)?.get() else {
-                fatalError("Failed to find dependency in container \(String(describing: container))")
+                return nil
             }
             
             return value
         }
         
         guard let value: T = inject() else {
-            fatalError("Failed to find dependency \(T.self)")
+            return nil
         }
         
         return value

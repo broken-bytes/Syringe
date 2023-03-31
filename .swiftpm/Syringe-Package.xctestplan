@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "6EBFEB6F-D03C-42EC-A7E7-7EC6793F9FF2",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "diagnosticCollectionPolicy" : "Always"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SyringeTests",
+        "name" : "SyringeTests"
+      }
+    }
+  ],
+  "version" : 1
+}

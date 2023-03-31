@@ -8,8 +8,7 @@
 
 import Foundation
 
-// MARK: Free Functions for global Container
-
+// MARK: Container free functions
 /// Creates a new Container
 public func syringeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
     builder()
@@ -19,15 +18,33 @@ public func syringeContainer(@ContainerBuilder _ builder: () -> Container) -> Co
 /// - Parameter identifier The identifier to be used for this container
 public func registerContainer(key: any Hashable, container: Container) {
     let containerKey = ContainerKey(key: key)
+    
+    if let container = Container.containers.first(where: { $0.key.hashValue == key.hashValue }) {
+        container.value.logger?.log(level: SyringeLogLevel.error, message: SyringeLogAction.registerContainer(message: "Container with key \(key) is already registered"))
+        return
+    }
+    
     Container.containers[containerKey] = container
 }
 
+/// Removes a previously created container from the container registry
+/// - Parameter for The key to be used for removal
+public func removeContainer(for key: any Hashable) {
+    let containerKey = ContainerKey(key: key)
+    Container.containers.removeValue(forKey: containerKey)
+}
+
+/// Retrieves a previously created container via its key
+/// - Parameter for The key to be used for retrieval
 public func container(for key: any Hashable) -> Container? {
-    return Container.containers.first(where: {
-        print($0.key.hashValue)
-        print(key.hashValue)
-        return $0.key.key.hashValue == key.hashValue }
-    )?.value
+    if let found = Container.containers.first(where: {
+        $0.key.key.hashValue == key.hashValue }
+    )?.value {
+        return found
+    }
+    
+    print("Failed to get container.\nNo container with key \(key) was registered previously.")
+    return nil
 }
 
 /// Creates a Container that is bound to global scope. Enabled the free function DSL
@@ -44,6 +61,7 @@ public func injectSyringe(@ContainerBuilder _ builder: () -> Container) -> Void 
 
 /// Stops the global Syringe instance.
 public func stopSyringe() {
+    Container.global.logger?.log(level: .info, message: .endSyringe(message: "Syringe will shutdown"))
     Container.global = nil
 }
 

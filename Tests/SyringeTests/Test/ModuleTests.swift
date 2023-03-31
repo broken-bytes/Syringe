@@ -1,14 +1,15 @@
-//
-//  ModuleTest.swift
-//  
-//
-//  Created by Marcel Kulina on 30.03.23.
-//
+/**
+ * DependencyTests.swift | Part of the Syringe dependency injection framework
+ * Created Date: Saturday, March 30th 2023, 6:58:20 pm
+ * Author: Marcel Kulina
+ *
+ * Copyright (c) 2023 Marcel Kulina @brokenbytes
+ */
 
 import XCTest
 @testable import Syringe
 
-final class ModuleTest: XCTestCase {
+final class ModuleTests: XCTestCase {
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,7 +34,6 @@ final class ModuleTest: XCTestCase {
                 XCTAssertNil(config)
                 
                 return TestAPI(config: TestConfig(url: ""))
-                
             }
         }
         
@@ -47,6 +47,8 @@ final class ModuleTest: XCTestCase {
         guard let api: TestAPI = inject() else {
             return
         }
+        
+        api.run()
     }
     
     func testModulesPullSameModuleDependencies() {
@@ -75,5 +77,28 @@ final class ModuleTest: XCTestCase {
             XCTFail()
             return
         }
+        
+        api.run()
+    }
+    
+    func testModuleDependenciesAreResolvedInRegistrationOrder() {
+        injectSyringe {
+            modules {
+                module {
+                    singleton { _ in TestAPI(config: TestConfig(url: "Module 1"))}
+                }
+                module {
+                    singleton { _ in TestAPI(config: TestConfig(url: "Module 2"))}
+                }
+            }
+        }
+        
+        guard let api: TestAPI = inject() else {
+            XCTFail()
+            return
+        }
+        
+        // Check that the Module name is not Module 2
+        XCTAssert(api.config.url != "Module 2")
     }
 }

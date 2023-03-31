@@ -9,7 +9,7 @@
 import XCTest
 @testable import Syringe
 
-final class TestCircularDependencies: XCTestCase {
+final class DependencyTests: XCTestCase {
 
     override func setUpWithError() throws {
         

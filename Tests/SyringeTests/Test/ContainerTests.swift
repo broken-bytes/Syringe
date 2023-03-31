@@ -1,5 +1,5 @@
 /**
- * ApplicationTests.swift | Part of the Syringe dependency injection framework
+ * ContainerTests.swift | Part of the Syringe dependency injection framework
  * Created Date: Saturday, March 4th 2023, 8:58:20 pm
  * Author: Marcel Kulina
  *
@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import Syringe
 
-final class TestApplication: XCTestCase {
+final class ContainerTests: XCTestCase {
     
     func testGlobalScopeIsCreated() throws {
         let testModule = module {
@@ -84,5 +84,48 @@ final class TestApplication: XCTestCase {
         
         XCTAssertNotNil(container)
         XCTAssert(randomVal == container?.get())
+    }
+    
+    func testRegisteredContainerCanBeUnregistered() {
+        let randomVal = Int.random(in: 0..<5)
+        registerContainer(key: "Container", container: syringeContainer {
+            modules {
+                module {
+                    singleton { Module in
+                        randomVal
+                    }
+                }
+            }
+        })
+        
+        var container = container(for: "Container")
+        
+        XCTAssertNotNil(container)
+        XCTAssert(randomVal == container?.get())
+        
+        removeContainer(for: "Container")
+        
+        container = Syringe.container(for: "Container")
+        
+        XCTAssertNil(container)
+    }
+    
+    func testRegisteringTheSameKeyTwicePreventsOverrides() {
+        let key = "Key"
+        registerContainer(key: key, container: syringeContainer {
+            modules {
+            }
+        })
+        
+        let containerA = container(for: key)
+        
+        registerContainer(key: key, container: syringeContainer {
+            modules {
+            }
+        })
+        
+        let containerB = container(for: key)
+        
+        XCTAssertIdentical(containerA, containerB)
     }
 }
