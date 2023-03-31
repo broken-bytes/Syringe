@@ -16,15 +16,7 @@ struct Syringe_ExamplesApp: App {
             VStack {
                 ContentView()
             }
-            .onAppear {
-                registerContainer(key: "Container", container: syringeContainer {
-                    modules {
-                        module {
-                            singleton { _ in 3 }
-                        }
-                    }
-                })
-            }
+
             .withSyringe {
                 modules {
                     module {
@@ -34,6 +26,13 @@ struct Syringe_ExamplesApp: App {
                     }
                 }
             }
+            .withContainer(key: "Container", syringeContainer {
+                modules {
+                    module {
+                        singleton { _ in 3 }
+                    }
+                }
+            })
         }
     }
 }
