@@ -11,15 +11,15 @@ import XCTest
 
 final class ModuleTests: XCTestCase {
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override class func tearDown() {
+        cleanSyringe()
     }
-    
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
+
     func testModulesDontPullOtherModuleDependencies() {
+        defer {
+            cleanSyringe()
+        }
+        
         let moduleA = module {
             factory { _ in
                 TestConfig(url: "")
@@ -52,6 +52,10 @@ final class ModuleTests: XCTestCase {
     }
     
     func testModulesPullSameModuleDependencies() {
+        defer {
+            cleanSyringe()
+        }
+        
         let moduleA = module {
             factory { _ in
                 TestConfig(url: "")
@@ -82,6 +86,10 @@ final class ModuleTests: XCTestCase {
     }
     
     func testModuleDependenciesAreResolvedInRegistrationOrder() {
+        defer {
+            cleanSyringe()
+        }
+        
         injectSyringe {
             modules {
                 module {

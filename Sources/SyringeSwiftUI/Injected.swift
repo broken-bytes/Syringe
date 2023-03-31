@@ -17,7 +17,7 @@ public struct Injected<T> {
     
     public var wrappedValue: T? {
         if needsContainer {
-            guard let value: T = container(for: key)?.get() else {
+            guard let value: T = findContainer(for: key)?.get() else {
                 return nil
             }
             

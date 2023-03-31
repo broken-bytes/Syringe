@@ -13,6 +13,10 @@ import XCTest
 
 final class ContainerTests: XCTestCase {
     
+    override func tearDownWithError() throws {
+        cleanSyringe()
+    }
+    
     func testGlobalScopeIsCreated() throws {
         let testModule = module {
             singleton { _ in TestConfig(url: "") }
@@ -30,6 +34,10 @@ final class ContainerTests: XCTestCase {
     }
     
     func testGlobalScopeIsShutdown() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { _ in TestConfig(url: "TEST") }
         }
@@ -40,7 +48,7 @@ final class ContainerTests: XCTestCase {
             }
         }
         
-        stopSyringe()
+        cleanSyringe()
         
         guard let config: TestConfig = inject() else {
             // Else case is what we want so return here
@@ -51,6 +59,10 @@ final class ContainerTests: XCTestCase {
     }
     
     func testLoggerWorks() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { _ in TestConfig(url: "") }
         }
@@ -69,8 +81,14 @@ final class ContainerTests: XCTestCase {
     }
     
     func testRegisteredContainerIsAvailable() {
+        let containerKey = "Container"
+        defer {
+            cleanSyringe()
+            removeContainer(for: containerKey)
+        }
+        
         let randomVal = Int.random(in: 0..<5)
-        registerContainer(key: "Container", container: syringeContainer {
+        registerContainer(key: containerKey) {
             modules {
                 module {
                     singleton { Module in
@@ -78,17 +96,23 @@ final class ContainerTests: XCTestCase {
                     }
                 }
             }
-        })
+        }
         
-        let container = container(for: "Container")
+        let container = findContainer(for: containerKey)
         
         XCTAssertNotNil(container)
         XCTAssert(randomVal == container?.get())
     }
     
     func testRegisteredContainerCanBeUnregistered() {
+        let containerKey = "Container"
+
+        defer {
+            cleanSyringe()
+        }
+        
         let randomVal = Int.random(in: 0..<5)
-        registerContainer(key: "Container", container: syringeContainer {
+        registerContainer(key: containerKey) {
             modules {
                 module {
                     singleton { Module in
@@ -96,35 +120,41 @@ final class ContainerTests: XCTestCase {
                     }
                 }
             }
-        })
+        }
         
-        var container = container(for: "Container")
+        var container = findContainer(for: containerKey)
         
         XCTAssertNotNil(container)
         XCTAssert(randomVal == container?.get())
         
-        removeContainer(for: "Container")
+        removeContainer(for: containerKey)
         
-        container = Syringe.container(for: "Container")
+        container = Syringe.findContainer(for: containerKey)
         
         XCTAssertNil(container)
     }
     
     func testRegisteringTheSameKeyTwicePreventsOverrides() {
-        let key = "Key"
-        registerContainer(key: key, container: syringeContainer {
+        let containerKey = "Key"
+        defer {
+            cleanSyringe()
+            removeContainer(for: containerKey)
+        }
+        
+
+        registerContainer(key: containerKey) {
             modules {
             }
-        })
+        }
         
-        let containerA = container(for: key)
+        let containerA = findContainer(for: containerKey)
         
-        registerContainer(key: key, container: syringeContainer {
+        registerContainer(key: containerKey) {
             modules {
             }
-        })
+        }
         
-        let containerB = container(for: key)
+        let containerB = findContainer(for: containerKey)
         
         XCTAssertIdentical(containerA, containerB)
     }

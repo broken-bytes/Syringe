@@ -30,9 +30,9 @@ public extension View {
     }
     
     func withContainer(key: any Hashable, _ block: () -> [Module]) -> some View {
-        registerContainer(key: key, container: syringeContainer {
+        registerContainer(key: key) {
             block()
-        })
+        }
         
         return self
     }

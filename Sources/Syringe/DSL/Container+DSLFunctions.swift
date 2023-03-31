@@ -10,8 +10,14 @@ import Foundation
 
 // MARK: Container free functions
 /// Creates a new Container
-public func syringeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
+public func makeContainer(@ContainerBuilder _ builder: () -> Container) -> Container {
     builder()
+}
+
+/// Creates a new Container with a given identifier
+/// - Parameter identifier The identifier to be used for this container
+public func registerContainer(key: any Hashable, @ContainerBuilder _ builder: () -> Container) {
+    registerContainer(key: key, container: builder())
 }
 
 /// Creates a new Container with a given identifier
@@ -20,7 +26,7 @@ public func registerContainer(key: any Hashable, container: Container) {
     let containerKey = ContainerKey(key: key)
     
     if let container = Container.containers.first(where: { $0.key.hashValue == key.hashValue }) {
-        container.value.logger?.log(level: SyringeLogLevel.error, message: SyringeLogAction.registerContainer(message: "Container with key \(key) is already registered"))
+        container.value.logger?.log(level: SyringeLogLevel.warn, message: SyringeLogAction.registerContainer(message: "Container with key \(key) is already registered"))
         return
     }
     
@@ -31,12 +37,15 @@ public func registerContainer(key: any Hashable, container: Container) {
 /// - Parameter for The key to be used for removal
 public func removeContainer(for key: any Hashable) {
     let containerKey = ContainerKey(key: key)
-    Container.containers.removeValue(forKey: containerKey)
+    
+    let container = Container.containers.removeValue(forKey: containerKey)
+    
+    container?.logger?.log(level: .info, message: .removeContainer(message: "Container \(String(describing: container)) was removed"))
 }
 
 /// Retrieves a previously created container via its key
 /// - Parameter for The key to be used for retrieval
-public func container(for key: any Hashable) -> Container? {
+public func findContainer(for key: any Hashable) -> Container? {
     if let found = Container.containers.first(where: {
         $0.key.key.hashValue == key.hashValue }
     )?.value {
@@ -52,16 +61,22 @@ public func injectSyringe(@ContainerBuilder _ builder: () -> Container) -> Void 
     if Container.global != nil {
         Container.global.logger?.log(
             level: .warn,
-            message: .startSyringe(message: "A global instance is already present. The current instance will be overriden. This is usually unintended.")
+            message: .startSyringe(message: "A global instance is already present. This is usually unintended. The current instance will not be overriden.")
         )
+    
+        return
     }
+    
+    let container = builder()
+    
+    container.logger?.log(level: .info, message: .startSyringe(message: "Syringe will be injected"))
     
     Container.global = builder()
 }
 
 /// Stops the global Syringe instance.
-public func stopSyringe() {
-    Container.global.logger?.log(level: .info, message: .endSyringe(message: "Syringe will shutdown"))
+public func cleanSyringe() {
+    Container.global?.logger?.log(level: .info, message: .endSyringe(message: "Syringe will be cleared"))
     Container.global = nil
 }
 

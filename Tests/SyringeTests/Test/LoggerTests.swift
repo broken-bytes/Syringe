@@ -6,14 +6,48 @@
 //
 
 import XCTest
+@testable import Syringe
+
 
 final class LoggerTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    override class func tearDown() {
+        cleanSyringe()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testLoggerDisplaysWarningWhenRegisteringContainerTwice() {
+        defer {
+            cleanSyringe()
+        }
+        
+        let key = "Key"
+        let expectation = XCTestExpectation()
+        registerContainer(key: key) {
+            logger {
+                print("\($0)\($1)")
+                switch $0 {
+                case .warn:
+                    switch $1 {
+                    case .registerContainer(let message):
+                        expectation.fulfill()
+                    default:
+                        XCTFail()
+                    }
+                default:
+                    XCTFail()
+                }
+            }
+            modules {
+                
+            }
+        }
+        
+        registerContainer(key: key) {
+            modules {
+                
+            }
+        }
+        
+        wait(for: [expectation], timeout: 2)
     }
 }
