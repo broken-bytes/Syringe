@@ -14,7 +14,7 @@ public struct Injected<T> {
     private let container: Container?
     private let needsContainer: Bool
     
-    public var wrappedValue: T? {
+    public var wrappedValue: T {
         if needsContainer {
             guard let value: T = container?.get() else {
                 fatalError("Failed to find dependency in container \(String(describing: container))")
