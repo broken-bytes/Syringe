@@ -29,7 +29,7 @@ struct Syringe_ExamplesApp: App {
             .withContainer(key: "Container", syringeContainer {
                 modules {
                     module {
-                        singleton { _ in 3 }
+                        singleton { (module: Module) -> Int in 3 }
                     }
                 }
             })
