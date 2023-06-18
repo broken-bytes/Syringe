@@ -44,7 +44,7 @@ final class ModuleTest: XCTestCase {
             }
         }
         
-        guard let api: TestAPI = inject() else {
+        guard let api: TestAPI = get() else {
             return
         }
     }
@@ -71,7 +71,7 @@ final class ModuleTest: XCTestCase {
             }
         }
         
-        guard let api: TestAPI = inject() else {
+        guard let api: TestAPI = get() else {
             XCTFail()
             return
         }

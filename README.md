@@ -105,7 +105,7 @@ let appModule = module {
 
 class View {
     // Resolving at global level
-    let service: Service = inject()!
+    let service: Service = get()!
 
     init() {
 

@@ -33,13 +33,12 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let service: TestService = inject() else {
+        guard let service: TestService = get() else {
             XCTFail()
             return
         }
         
-        service.run()
-        
+        service.run()   
     }
     
     func testExplicitTypeIsResolved() throws {
@@ -56,7 +55,7 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let service: TestServiceLive = inject() else {
+        guard let service: TestServiceLive = get() else {
             XCTFail()
             return
         }
@@ -80,11 +79,11 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let parent: Parent = inject() else {
+        guard let parent: Parent = get() else {
             XCTFail()
             return
         }
-        guard let child: Child = inject() else {
+        guard let child: Child = get() else {
             XCTFail()
             return
         }
@@ -109,7 +108,7 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let service: TestService = inject() else {
+        guard let service: TestService = get() else {
             return
         }
         

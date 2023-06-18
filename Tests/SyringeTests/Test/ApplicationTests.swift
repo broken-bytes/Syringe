@@ -28,7 +28,7 @@ final class TestApplication: XCTestCase {
     func testGlobalScopeIsCreated() throws {
         
         // Config should not be nil
-        let config: TestConfig? = inject()
+        let config: TestConfig? = get()
         
         XCTAssertNotNil(config)
     }
@@ -46,7 +46,7 @@ final class TestApplication: XCTestCase {
         
         stopSyringe()
         
-        guard let config: TestConfig = inject() else {
+        guard let config: TestConfig = get() else {
             // Else case is what we want so return here
             return
         }
@@ -66,7 +66,7 @@ final class TestApplication: XCTestCase {
             }
         }
         
-        guard let config: TestConfig = inject() else {
+        guard let config: TestConfig = get() else {
             // Else clase is what we want so return here
             return
         }
