@@ -19,11 +19,11 @@ public final class Module {
         resolvables.append(resolvable as! (any ResolvableInternal))
     }
     
-    internal func get<T>(named: String! = nil) -> T? {
+    public func get<T>(named: String! = nil) -> T? {
         getDependency(named: named)
     }
     
-    internal func get<T>(named: String! = nil, arguments: [Any]) -> T? {
+    public func get<T>(named: String! = nil, arguments: [Any]) -> T? {
         getDependency(named: named, args: arguments)
     }
     
