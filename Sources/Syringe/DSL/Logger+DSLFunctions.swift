@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Creates a logger instance that is used for container logging
 public func logger(_ logger: @escaping SyringeLogMessage) -> SyringeLogger {
     SyringeLogger(logFunc: logger)
 }

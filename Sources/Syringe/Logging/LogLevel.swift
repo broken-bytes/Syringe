@@ -8,10 +8,15 @@
 
 import Foundation
 
+/// The Log levels for the logger
 public enum SyringeLogLevel {
     
+    /// Basic information
     case info
+    /// Debugging information
     case debug
+    /// Warnings
     case warn
+    /// Errors
     case error
 }

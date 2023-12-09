@@ -10,6 +10,7 @@ import Foundation
 
 public typealias SyringeLogMessage = (SyringeLogLevel, SyringeLogAction) -> Void
 
+/// The Logger that can be attached to any container to enable logging to a defined method
 public class SyringeLogger {
     
     private let logFunc: SyringeLogMessage

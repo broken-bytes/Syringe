@@ -9,17 +9,17 @@
 import XCTest
 @testable import Syringe
 
-final class TestCircularDependencies: XCTestCase {
-
-    override func setUpWithError() throws {
-        
-    }
+final class DependencyTests: XCTestCase {
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        cleanSyringe()
     }
     
     func testTypeCastingIsResolved() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { (module: Module) -> TestService in
                 TestServiceLive(repository: module.get()!) as TestService
@@ -38,10 +38,15 @@ final class TestCircularDependencies: XCTestCase {
             return
         }
         
-        service.run()   
+        service.run()
+        
     }
     
     func testExplicitTypeIsResolved() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { module in
                 return TestServiceLive(repository: module.get()!)
@@ -59,10 +64,15 @@ final class TestCircularDependencies: XCTestCase {
             XCTFail()
             return
         }
+        
         service.run()
     }
 
     func testCircularDependencyIsResolved() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { module in Parent(child: module.get()!) }
                 .onInit {
@@ -87,11 +97,15 @@ final class TestCircularDependencies: XCTestCase {
             XCTFail()
             return
         }
-        
+                
         XCTAssert(child.parent != nil)
     }
     
     func testUnregisteredDependencyIsNull() throws {
+        defer {
+            cleanSyringe()
+        }
+        
         let testModule = module {
             singleton { module in Parent(child: module.get()!) }
                 .onInit {
@@ -108,7 +122,8 @@ final class TestCircularDependencies: XCTestCase {
             }
         }
         
-        guard let service: TestService = get() else {
+        guard let service: TestService = inject() else {
+            cleanSyringe()
             return
         }
         
