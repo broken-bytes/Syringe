@@ -24,7 +24,7 @@ public struct Injected<T> {
             return value
         }
         
-        guard let value: T = inject() else {
+        guard let value: T = get() else {
             return nil
         }
         

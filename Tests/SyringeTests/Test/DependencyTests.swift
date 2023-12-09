@@ -122,7 +122,7 @@ final class DependencyTests: XCTestCase {
             }
         }
         
-        guard let service: TestService = inject() else {
+        guard let service: TestService = get() else {
             cleanSyringe()
             return
         }

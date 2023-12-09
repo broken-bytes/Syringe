@@ -28,9 +28,5 @@ let package = Package(
             name: "SyringeTests",
             dependencies: ["Syringe"]
         ),
-        .testTarget(
-            name: "SyringeSwiftUITests",
-            dependencies: ["SyringeSwiftUI"]
-        )
     ]
 )
