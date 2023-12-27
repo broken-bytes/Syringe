@@ -1,29 +1,30 @@
 import XCTest
-@testable import SyringeMacro
+import SwiftSyntaxMacros
+import SwiftSyntaxMacrosTestSupport
+import SwiftSyntax
 
-class SyringeMacroTests: XCTest {
+#if canImport(SyringeMacros)
+import SyringeMacros
+#endif
+
+class SyringeMacroTests: XCTestCase {
     let testMacros: [String: Macro.Type] = [
         "Injected": InjectedMacro.self
     ]
+    
     func testInjectedMacro() {
         assertMacroExpansion(
             #"""
             @Injected var viewModel: ViewModel
-            """#,
-            expandedSource: #"""
+            """#, 
+            expandedSource:  
+            #"""
             var viewModel: ViewModel {
                 get {
-                    fatalError("Injected property not implemented")
-                }
-                set {
-                    fatalError("Injected property not implemented")
+                    get()
                 }
             }
             """#,
-            diagnostics: [
-                
-            ],
-            macros: testMacros
-        )
+            macros: testMacros)
     }
 }

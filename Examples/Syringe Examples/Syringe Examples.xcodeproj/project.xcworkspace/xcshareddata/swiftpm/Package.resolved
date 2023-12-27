@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "syringe",
+      "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/broken-bytes/Syringe",
+      "location" : "https://github.com/apple/swift-syntax",
       "state" : {
-        "branch" : "feature/swiftui",
-        "revision" : "2bbdec7cb8a9c897a91b89e1d7390b39bffa6780"
+        "revision" : "6ad4ea24b01559dde0773e3d091f1b9e36175036",
+        "version" : "509.0.2"
       }
     }
   ],

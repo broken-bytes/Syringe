@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9.2
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import CompilerPluginSupport
@@ -37,7 +37,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SyringeMacrosTests",
-            dependencies: ["SyringeMacros"]
+            dependencies: [
+                "SyringeMacros",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
+            ]
         ),
     ]
 )

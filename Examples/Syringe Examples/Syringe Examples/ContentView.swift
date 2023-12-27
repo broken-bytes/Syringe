@@ -5,31 +5,21 @@
 //  Created by Marcel Kulina on 30.03.23.
 //
 
+import Observation
 import SwiftUI
 import Syringe
-import SyringeSwiftUI
 
 struct ContentView: View {
-    @Injected var value: Int
-    @Injected(with: "Container") var valueContainer: Int
+    @Injected(name: "") var value: Int
+    @State var viewModel: ContentViewModel = get()
     
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Hello, \(viewModel.username)! Your ID is: \(value)")
         }
         .padding()
-        .onAppear {
-            print(self.value)
-            print(self.valueContainer)
-        }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }

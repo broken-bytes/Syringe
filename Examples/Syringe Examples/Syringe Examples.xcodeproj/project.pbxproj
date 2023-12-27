@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,8 +11,8 @@
 		030156C229D621BC00DB041F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030156C129D621BC00DB041F /* ContentView.swift */; };
 		030156C429D621BD00DB041F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 030156C329D621BD00DB041F /* Assets.xcassets */; };
 		030156C729D621BD00DB041F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 030156C629D621BD00DB041F /* Preview Assets.xcassets */; };
-		030156D129D6238000DB041F /* Syringe in Frameworks */ = {isa = PBXBuildFile; productRef = 030156D029D6238000DB041F /* Syringe */; };
-		030156D429D623C500DB041F /* SyringeSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 030156D329D623C500DB041F /* SyringeSwiftUI */; };
+		03821F922B3CD22600736492 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03821F912B3CD22600736492 /* ContentViewModel.swift */; };
+		03E041D12B3CCCF300E04752 /* Syringe in Frameworks */ = {isa = PBXBuildFile; productRef = 03E041D02B3CCCF300E04752 /* Syringe */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +21,7 @@
 		030156C129D621BC00DB041F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		030156C329D621BD00DB041F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		030156C629D621BD00DB041F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		03821F912B3CD22600736492 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,8 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				030156D429D623C500DB041F /* SyringeSwiftUI in Frameworks */,
-				030156D129D6238000DB041F /* Syringe in Frameworks */,
+				03E041D12B3CCCF300E04752 /* Syringe in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +60,7 @@
 				030156C129D621BC00DB041F /* ContentView.swift */,
 				030156C329D621BD00DB041F /* Assets.xcassets */,
 				030156C529D621BD00DB041F /* Preview Content */,
+				03821F912B3CD22600736492 /* ContentViewModel.swift */,
 			);
 			path = "Syringe Examples";
 			sourceTree = "<group>";
@@ -96,8 +97,7 @@
 			);
 			name = "Syringe Examples";
 			packageProductDependencies = (
-				030156D029D6238000DB041F /* Syringe */,
-				030156D329D623C500DB041F /* SyringeSwiftUI */,
+				03E041D02B3CCCF300E04752 /* Syringe */,
 			);
 			productName = "Syringe Examples";
 			productReference = 030156BC29D621BC00DB041F /* Syringe Examples.app */;
@@ -128,7 +128,7 @@
 			);
 			mainGroup = 030156B329D621BC00DB041F;
 			packageReferences = (
-				030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */,
+				03E041CF2B3CCCF300E04752 /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = 030156BD29D621BC00DB041F /* Products */;
 			projectDirPath = "";
@@ -158,6 +158,7 @@
 			files = (
 				030156C229D621BC00DB041F /* ContentView.swift in Sources */,
 				030156C029D621BC00DB041F /* Syringe_ExamplesApp.swift in Sources */,
+				03821F922B3CD22600736492 /* ContentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,7 +215,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -268,7 +269,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -359,27 +360,17 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/broken-bytes/Syringe";
-			requirement = {
-				branch = feature/swiftui;
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		03E041CF2B3CCCF300E04752 /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		030156D029D6238000DB041F /* Syringe */ = {
+		03E041D02B3CCCF300E04752 /* Syringe */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */;
 			productName = Syringe;
-		};
-		030156D329D623C500DB041F /* SyringeSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 030156CF29D6238000DB041F /* XCRemoteSwiftPackageReference "Syringe" */;
-			productName = SyringeSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

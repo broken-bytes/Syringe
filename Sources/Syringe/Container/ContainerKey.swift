@@ -1,9 +1,10 @@
-//
-//  ContainerKey.swift
-//  
-//
-//  Created by Marcel Kulina on 30.03.23.
-//
+/**
+ * ContainerKey.swift | Part of the Syringe dependency injection framework
+ * Created Date: Saturday, March 4th 2023, 8:58:20 pm
+ * Author: Marcel Kulina
+ *
+ * Copyright (c) 2023 Marcel Kulina @brokenbytes
+ */
 
 import Foundation
 

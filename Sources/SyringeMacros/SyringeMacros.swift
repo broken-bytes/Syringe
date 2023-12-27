@@ -2,6 +2,6 @@ import SwiftCompilerPlugin
 import SwiftSyntaxMacros
 
 @main
-struct MyProjectMacros: CompilerPlugin {
+struct SyringeMacros: CompilerPlugin {
     var providingMacros: [Macro.Type] = [InjectedMacro.self]
 }

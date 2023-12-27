@@ -29,7 +29,7 @@ public final class Container {
     /// Gets a dependency of type T,
     /// - Parameter named Optional name to query for
     /// - Parameter arguments An array of arguments to supply upon resolve. Can be empty
-    public func get<T>(named: String! = nil, _ arguments: [Any] = []) -> T? {
+    public func get<T>(named: String! = nil, _ arguments: [Any] = []) -> T {
         getDependency(named: named, arguments: arguments)
     }
     
@@ -37,7 +37,7 @@ public final class Container {
         self.modules.append(module)
     }
     
-    private func getDependency<T>(named: String!, arguments: [Any] = []) -> T? {
+    private func getDependency<T>(named: String!, arguments: [Any] = []) -> T {
         for module in modules {
             if let depedency: T = module.get(named: named, arguments: arguments) {
                 logger?.log(level: .info, message: .resolve(type: T.self))
@@ -45,6 +45,6 @@ public final class Container {
             }
         }
         
-        return nil
+        fatalError("Dependency named \(named) with arguments: \(arguments) not found")
     }
 }

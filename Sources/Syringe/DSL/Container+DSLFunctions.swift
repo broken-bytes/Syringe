@@ -96,10 +96,9 @@ public func get<T>(named: String! = nil) -> T? {
 }
 
 /// Gets a dependency by type and name and passes arguments
-public func get<T>(named: String! = nil, _ arguments: Any...) -> T? {
+public func get<T>(named: String! = nil, _ arguments: Any...) -> T {
     guard let container = Container.global else {
-        print("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
-        return nil
+        fatalError("Syringe: No global scope running. Is this intended? You might have forgotten to call startSyringe()")
     }
     
     return container.get(named: named, arguments.compactMap { $0 })
